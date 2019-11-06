@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -215,16 +216,57 @@ public class MainClass {
 		}
 		return lastMaxVal;
 	}
-	
-	// missing element in sorted array
-	public static int missingElementInSortedArray(int [] arr) {
-		
-		return 0;
+
+	// missing element in sorted array using recursion
+	public static void missingElementInSortedArray(int[] arr) {
+		ArrayList<Integer> li = new ArrayList<>();
+		findMissingUsingRecurrsion(arr, li);
 	}
-	
+
+	private static void findMissingUsingRecurrsion(int[] arr, ArrayList<Integer> li) {
+		int medium = arr.length / 2;
+		if (medium == 0) {
+			if (li.size() == 0) {
+				li.add(arr[medium]);
+			} else {
+				if (arr[medium] - li.get(li.size() - 1) == 1) {
+					li.add(arr[medium]);
+				} else {
+					li.add(arr[medium] - 1);
+					li.add(arr[medium]);
+					System.out.println((arr[medium] - 1) + " missing");
+					return;
+				}
+			}
+			return;
+		}
+		findMissingUsingRecurrsion(Arrays.copyOfRange(arr, 0, medium), li);
+		findMissingUsingRecurrsion(Arrays.copyOfRange(arr, medium, arr.length), li);
+	}
+
+	// find missing element
+	public static int findMissingElement(int[] arr) {
+		int missing = -111111;
+		Arrays.sort(arr);
+		for (int x = 1; x < arr.length; x++) {
+			if (arr[x - 1] + 1 != arr[x]) {
+				return arr[x - 1] + 1;
+			}
+		}
+		return missing;
+	}
+
+	// without sorting
+	public static long findMissingElementWithoutSort(int[] arr) {
+		Supplier<IntStream> supplier = () -> IntStream.of(arr);
+		int minVal = supplier.get().min().orElse(Integer.MIN_VALUE);
+		int maxVal = supplier.get().max().orElse(Integer.MAX_VALUE);
+		return IntStream.range(minVal, maxVal + 1).sum() - supplier.get().sum();
+	}
+
 	public static void main(String[] args) {
-		int arr[] = { -2, -3 , -5, -1};
-		System.out.println(getMaxSumOfContinousSubArr(arr));
+		int arr[] = { 5, 3, 1, 2 };
+		System.out.println(findMissingElementWithoutSort(arr));
 //		System.out.println(countTheTripplets(arr));
 //		int arr[] = { 3, 1, 4, 6, 5 };
 //		System.out.println(Arrays.toString(subArrBySum(arr, 15)));
