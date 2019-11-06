@@ -108,7 +108,7 @@ public class MainClass {
 		return entry.getKey();
 	}
 
-	//pythagorean triplet a^2 + b^2 = c^2
+	// pythagorean triplet a^2 + b^2 = c^2
 	public static boolean pythagoreanTriplet(int arr[]) {
 		if (Objects.isNull(arr) || arr.length == 0)
 			throw new IllegalArgumentException("Array is empty");
@@ -133,7 +133,7 @@ public class MainClass {
 		return false;
 	}
 
-	//rotate array 90 degree
+	// rotate array 90 degree
 	public static int[][] rotateAMatrixBy90(int[][] arr) {
 		int max = arr.length - 1;
 		int[][] rotate = new int[arr.length][arr.length];
@@ -146,12 +146,12 @@ public class MainClass {
 		return rotate;
 	}
 
-	//One directional Subarry
+	// One directional Subarry
 	public static int[] oneDirSubArrBySum(int[] arr, int sum) {
 		for (int x = 0; x < arr.length; x++) {
 			Supplier<IntStream> turncate;
 			final int efctivX = x;
-			if((turncate = () -> IntStream.of(arr).limit(efctivX)).get().sum() == sum) {
+			if ((turncate = () -> IntStream.of(arr).limit(efctivX)).get().sum() == sum) {
 				return turncate.get().toArray();
 			}
 		}
@@ -201,9 +201,31 @@ public class MainClass {
 		return count;
 	}
 
+	// get maximum sum of continous array
+	public static int getMaxSumOfContinousSubArr(int[] arr) {
+		int currentCal = 0;
+		int lastMaxVal = Integer.MIN_VALUE;
+		for (int x = 0; x < arr.length; x++) {
+			currentCal += arr[x];
+			if (currentCal > lastMaxVal) {
+				lastMaxVal = currentCal;
+			}
+			if (currentCal < 0)
+				currentCal = 0;
+		}
+		return lastMaxVal;
+	}
+	
+	// missing element in sorted array
+	public static int missingElementInSortedArray(int [] arr) {
+		
+		return 0;
+	}
+	
 	public static void main(String[] args) {
-		int arr[] = { 1, 15, 17, 19 }; // 1,2,3,5
-		System.out.println(countTheTripplets(arr));
+		int arr[] = { -2, -3 , -5, -1};
+		System.out.println(getMaxSumOfContinousSubArr(arr));
+//		System.out.println(countTheTripplets(arr));
 //		int arr[] = { 3, 1, 4, 6, 5 };
 //		System.out.println(Arrays.toString(subArrBySum(arr, 15)));
 //		int arr[][] = { { 2, 3, 1 }, { 5, 6, 2 }, { 7, 8, 9 } };
