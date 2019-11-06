@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Map.Entry;
+import java.util.function.Supplier;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
@@ -133,7 +134,7 @@ public class MainClass {
 
 	public static int[][] rotateAMatrixBy90(int[][] arr) {
 		int max = arr.length - 1;
-		int[][] rotate = new int [arr.length][arr.length];
+		int[][] rotate = new int[arr.length][arr.length];
 		for (int x = 0; x < arr.length; x++) {
 			for (int y = 0; y < arr[x].length; y++) {
 				rotate[x][y] = arr[y][max];
@@ -142,15 +143,68 @@ public class MainClass {
 		}
 		return rotate;
 	}
-	
-	
-	
+
+//	public static int[] subArrBySum(int[] arr, int sum) {
+//		for (int x = 0; x < arr.length; x++) {
+//			Supplier<IntStream> turncate;
+//			final int efctivX = x;
+//			if((turncate = () -> IntStream.of(arr).limit(efctivX)).get().sum() == sum) {
+//				return turncate.get().toArray();
+//			}
+//		}
+//		return null;
+//	}
+
+	// sub-array by sum
+	public static int[] subArrBySum(int[] arr, int sum) {
+		int[] index = new int[2];
+		for (int outer = 0; outer < arr.length; outer++) {
+			int collect = arr[outer];
+			index[0] = outer;
+			for (int inner = outer + 1; inner < arr.length; inner++) {
+				collect += arr[inner];
+				if (sum == collect) {
+					index[1] = inner;
+					return index;
+				}
+				if (collect > sum)
+					break;
+			}
+		}
+		return null;
+	}
+
+	// count the triplets
+	public static int countTheTripplets(int[] arr) {
+		if (Objects.isNull(arr) || arr.length == 0)
+			throw new IllegalArgumentException("Array is empty");
+		int count = 0;
+		if (arr.length == 2)
+			return count;
+		Arrays.sort(arr);
+		for (int x = 0; x < arr.length - 2; x++) {
+			int first = arr[x];
+			int second = arr[x + 1];
+			for (int y = x + 2; y < arr.length; y++) {
+				int sum;
+				if ((sum = first + second) == arr[y]) {
+					count++;
+				}
+				if (sum > arr[y])
+					break;
+			}
+		}
+
+		return count;
+	}
+
 	public static void main(String[] args) {
+		int arr[] = { 1, 15, 17, 19 }; // 1,2,3,5
+		System.out.println(countTheTripplets(arr));
 //		int arr[] = { 3, 1, 4, 6, 5 };
-		int arr[][] = {{2,3,1},
-					   {5,6,2},
-					   {7,8,9}};
-		System.out.println(Arrays.deepToString(rotateAMatrixBy90(arr)));
+//		System.out.println(Arrays.toString(subArrBySum(arr, 15)));
+//		int arr[][] = { { 2, 3, 1 }, { 5, 6, 2 }, { 7, 8, 9 } };
+//		System.out.println(Arrays.deepToString(rotateAMatrixBy90(arr)));
 //		System.out.println(pythagoreanTriplet(arr));
 //		System.out.println(findValue(arr, 3));
 //		System.out.println(_findValue(arr, 3));
