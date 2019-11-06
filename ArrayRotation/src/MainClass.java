@@ -1,5 +1,8 @@
 import java.util.Arrays;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 public class MainClass {
 
@@ -52,9 +55,106 @@ public class MainClass {
 		return arr;
 	}
 
+	// O(n)
+	public static int findValue(int[] ar, int val) {
+		if (Objects.isNull(ar) || ar.length == 0)
+			throw new IllegalArgumentException("Array is empty");
+		int value;
+		if ((value = IntStream.of(ar).filter(x -> x == val).findAny().orElse(-1)) == -1)
+			throw new RuntimeException("Value =" + val + " not found");
+		else
+			return value;
+	}
+
+	// if array is sorted => n log(n)
+	// then solution can be log(n)
+	public static int _findValue(int[] ar, int val) {
+		if (Objects.isNull(ar) || ar.length == 0)
+			throw new IllegalArgumentException("Array is empty");
+		Arrays.sort(ar);
+		if (Objects.isNull(ar) || ar.length == 0)
+			throw new IllegalArgumentException("Array is empty");
+		int mid = ar.length / 2;
+		while (mid >= 0) {
+			if (val == ar[mid])
+				return val;
+			if (val < ar[mid])
+				--mid;
+			else
+				++mid;
+		}
+		return -1;
+	}
+
+	// nlog(n)
+	public static int kLargestElementFromArray(int[] arr, int k) {
+		if (Objects.isNull(arr) || arr.length == 0)
+			throw new IllegalArgumentException("Array is empty");
+		Arrays.sort(arr);
+		return arr[arr.length - k];
+	}
+
+	// o(n * n)
+	public static int kLargestElementUsingTreeMap(int[] arr, int k) {
+		if (Objects.isNull(arr) || arr.length == 0)
+			throw new IllegalArgumentException("Array is empty");
+		TreeMap<Integer, Integer> map = new TreeMap<>();
+		for (int x = 0; x < arr.length; x++) {
+			map.put(arr[x], x);
+		}
+		Entry<Integer, Integer> entry = map.entrySet().stream().filter(x -> x.getValue() == (arr.length - k)).findAny()
+				.orElse(null);
+		return entry.getKey();
+	}
+
+	public static boolean pythagoreanTriplet(int arr[]) {
+		if (Objects.isNull(arr) || arr.length == 0)
+			throw new IllegalArgumentException("Array is empty");
+		Arrays.sort(arr);
+		int min, max;
+		int pointer = arr.length - 1;
+		for (int x = arr.length - 2; x >= 0; --x) {
+			min = 0;
+			max = x;
+			while (min < max) {
+				double sumCores = Math.pow(arr[min], 2) + Math.pow(arr[max], 2);
+				double pointerSqr = Math.pow(arr[pointer], 2);
+				if (pointerSqr == sumCores)
+					return true;
+				if (sumCores < pointerSqr)
+					min++;
+				else
+					max--;
+			}
+			--pointer;
+		}
+		return false;
+	}
+
+	public static int[][] rotateAMatrixBy90(int[][] arr) {
+		int max = arr.length - 1;
+		int[][] rotate = new int [arr.length][arr.length];
+		for (int x = 0; x < arr.length; x++) {
+			for (int y = 0; y < arr[x].length; y++) {
+				rotate[x][y] = arr[y][max];
+			}
+			max--;
+		}
+		return rotate;
+	}
+	
+	
+	
 	public static void main(String[] args) {
-		Integer arr[] = { 1, 2, 3, 4, 5, 6, 7 };
-		System.out.println(Arrays.toString(circularRotate(arr)));
-		System.out.println(Arrays.toString(circularRotate(arr)));
+//		int arr[] = { 3, 1, 4, 6, 5 };
+		int arr[][] = {{2,3,1},
+					   {5,6,2},
+					   {7,8,9}};
+		System.out.println(Arrays.deepToString(rotateAMatrixBy90(arr)));
+//		System.out.println(pythagoreanTriplet(arr));
+//		System.out.println(findValue(arr, 3));
+//		System.out.println(_findValue(arr, 3));
+//		System.out.println(Arrays.toString(circularRotate(arr)));
+//		System.out.println(Arrays.toString(circularRotate(arr)));
 	}
 }
