@@ -1,8 +1,8 @@
 import java.util.Arrays;
 import java.util.Map.Entry;
-import java.util.function.Supplier;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 public class MainClass {
@@ -87,7 +87,7 @@ public class MainClass {
 		return -1;
 	}
 
-	// nlog(n)
+	// nlog(n) -> K largest element
 	public static int kLargestElementFromArray(int[] arr, int k) {
 		if (Objects.isNull(arr) || arr.length == 0)
 			throw new IllegalArgumentException("Array is empty");
@@ -95,7 +95,7 @@ public class MainClass {
 		return arr[arr.length - k];
 	}
 
-	// o(n * n)
+	// o(n * n) -> K largest element
 	public static int kLargestElementUsingTreeMap(int[] arr, int k) {
 		if (Objects.isNull(arr) || arr.length == 0)
 			throw new IllegalArgumentException("Array is empty");
@@ -108,6 +108,7 @@ public class MainClass {
 		return entry.getKey();
 	}
 
+	//pythagorean triplet a^2 + b^2 = c^2
 	public static boolean pythagoreanTriplet(int arr[]) {
 		if (Objects.isNull(arr) || arr.length == 0)
 			throw new IllegalArgumentException("Array is empty");
@@ -132,6 +133,7 @@ public class MainClass {
 		return false;
 	}
 
+	//rotate array 90 degree
 	public static int[][] rotateAMatrixBy90(int[][] arr) {
 		int max = arr.length - 1;
 		int[][] rotate = new int[arr.length][arr.length];
@@ -144,16 +146,17 @@ public class MainClass {
 		return rotate;
 	}
 
-//	public static int[] subArrBySum(int[] arr, int sum) {
-//		for (int x = 0; x < arr.length; x++) {
-//			Supplier<IntStream> turncate;
-//			final int efctivX = x;
-//			if((turncate = () -> IntStream.of(arr).limit(efctivX)).get().sum() == sum) {
-//				return turncate.get().toArray();
-//			}
-//		}
-//		return null;
-//	}
+	//One directional Subarry
+	public static int[] oneDirSubArrBySum(int[] arr, int sum) {
+		for (int x = 0; x < arr.length; x++) {
+			Supplier<IntStream> turncate;
+			final int efctivX = x;
+			if((turncate = () -> IntStream.of(arr).limit(efctivX)).get().sum() == sum) {
+				return turncate.get().toArray();
+			}
+		}
+		return null;
+	}
 
 	// sub-array by sum
 	public static int[] subArrBySum(int[] arr, int sum) {
