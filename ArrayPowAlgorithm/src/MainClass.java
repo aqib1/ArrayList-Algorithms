@@ -7,6 +7,11 @@ public class MainClass {
 	// find the count for 0,1,2,3,4
 	// if x < y then x^y > y^x with some exceptions
 	// with some exceptions
+	// if value of x=0 then count +=0
+	// if value of x=1 then count no of zeros in y
+	// count += no of zeros and no of 1 from y
+	// if x = 2 then - (no's of 3 + no's of 4 from x)
+	// if x = 3 then + (no's of 2 from y)
 
 	public static int countFirstArrayPowerAginstSecond(int x[], int y[]) {
 		// sort array y
@@ -21,7 +26,9 @@ public class MainClass {
 			else {
 				int idx = Arrays.binarySearch(y, x[i]);
 				if (idx < 0) {
-					count += (y.length - (Math.abs(idx + 1)));
+					int v = (Math.abs(idx + 1));
+					if (v <= y.length - 1)
+						count += (y.length - v);
 				} else {
 					if (idx < y.length - 1)
 						count += y.length - (idx + 1);
@@ -69,9 +76,28 @@ public class MainClass {
 		return count;
 	}
 
+	public static int inversionOfArray(int[] y) {
+		int count = 0;
+		for (int x = 0; x < y.length - 1; x++) {
+			for (int z = x + 1; z < y.length; z++) {
+				if (y[x] > y[z]) {
+					int small = y[z];
+					y[z] = y[x];
+					y[x] = small;
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
 	public static void main(String[] args) {
-		int[] arr1 = { 2, 1, 6 };
-		int[] arr2 = { 1, 5 };
-		System.out.println(countFirstArrayPowerAginstSecond(arr1, arr2));
+		int[] arr = { 2, 4, 1, 3, 5 };
+		System.out.println(inversionOfArray(arr));
+
+//		int[] arr1 = { 2, 1, 6 };
+//		int[] arr2 = { 1, 5 };
+//		System.out.println(Arrays.binarySearch(arr2, 6));
+//		System.out.println(countFirstArrayPowerAginstSecond(arr1, arr2));
 	}
 }
