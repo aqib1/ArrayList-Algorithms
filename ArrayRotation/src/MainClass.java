@@ -194,7 +194,7 @@ public class MainClass {
 				if ((sum = first + second) == arr[y]) {
 					count++;
 				}
-				if (sum > arr[y])
+				if (sum < arr[y])
 					break;
 			}
 		}
